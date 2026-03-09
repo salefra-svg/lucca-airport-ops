@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucca Tassignano - Registro Movimenti</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Lucca Tassignano - Registro Arrivi e Partenze</h1>
+        <p>
+          Inserire i dati operativi per monitorare i movimenti aeroportuali in tempo reale.
+        </p>
+      </header>
+
+      <section class="panel">
+        <h2>Nuovo movimento</h2>
+        <form id="movementForm">
+          <input type="hidden" name="recordId" />
+          <div class="grid">
+            <label>
+              Identificativo volo / Callsign
+              <input type="text" name="callsign" required />
+            </label>
+
+            <label>
+              Marca aeromobile
+              <input type="text" name="marca" required />
+            </label>
+
+            <label>
+              Tipo aeromobile
+              <input type="text" name="tipo" required />
+            </label>
+
+            <label>
+              Esercente
+              <input type="text" name="esercente" required />
+            </label>
+
+            <label>
+              Provenienza
+              <input type="text" name="provenienza" required />
+            </label>
+
+            <label>
+              Destinazione
+              <input type="text" name="destinazione" required />
+            </label>
+
+            <label>
+              Stato del movimento
+              <select name="stato" required>
+                <option value="Atteso">Atteso</option>
+                <option value="Arrivato">Arrivato</option>
+                <option value="Pronto">Pronto</option>
+                <option value="Partito">Partito</option>
+                <option value="Cancellato">Cancellato</option>
+              </select>
+            </label>
+
+            <label>
+              Data arrivo
+              <input type="date" name="dataArrivo" required />
+            </label>
+
+            <label>
+              Ora arrivo locale
+              <input type="time" name="oraArrivoLocale" required />
+            </label>
+
+            <label>
+              Ora arrivo UTC
+              <input type="time" name="oraArrivoUtc" required />
+            </label>
+
+            <label>
+              Data partenza
+              <input type="date" name="dataPartenza" required />
+            </label>
+
+            <label>
+              Ora partenza locale
+              <input type="time" name="oraPartenzaLocale" required />
+            </label>
+
+            <label>
+              Ora partenza UTC
+              <input type="time" name="oraPartenzaUtc" required />
+            </label>
+
+            <label>
+              Passeggeri in arrivo
+              <input type="number" min="0" name="paxArrivo" required />
+            </label>
+
+            <label>
+              Passeggeri in partenza
+              <input type="number" min="0" name="paxPartenza" required />
+            </label>
+
+            <fieldset>
+              <legend>Richiesta carburante</legend>
+              <label class="inline">
+                <input type="radio" name="carburante" value="Nessuna" checked /> Nessuna
+              </label>
+              <label class="inline">
+                <input type="radio" name="carburante" value="Jet A1" /> Jet A1
+              </label>
+              <label class="inline">
+                <input type="radio" name="carburante" value="AVgas" /> AVgas
+              </label>
+            </fieldset>
+
+            <label class="checkbox">
+              <input type="checkbox" name="taxi" /> Richiesta taxi
+            </label>
+          </div>
+
+          <label>
+            Altre richieste
+            <textarea
+              name="altreRichieste"
+              rows="3"
+              placeholder="Es. catering, handling speciale, assistenza disabili..."
+            ></textarea>
+          </label>
+
+          <div class="actions-row">
+            <button type="submit" id="submitButton">Salva movimento</button>
+            <button type="button" id="cancelEditButton" class="secondary hidden">Annulla modifica</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Movimenti registrati</h2>
+
+        <div class="toolbar">
+          <label>
+            Filtro per data
+            <input type="date" id="filterDate" />
+          </label>
+          <button type="button" id="clearFilterButton" class="secondary">Rimuovi filtro</button>
+          <button type="button" id="exportCsvButton" class="secondary">Esporta CSV</button>
+        </div>
+
+        <div class="summary" id="dailySummary"></div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Callsign</th>
+                <th>Marca</th>
+                <th>Tipo</th>
+                <th>Esercente</th>
+                <th>Provenienza</th>
+                <th>Destinazione</th>
+                <th>Stato</th>
+                <th>Arrivo (loc/UTC)</th>
+                <th>Partenza (loc/UTC)</th>
+                <th>PAX A/P</th>
+                <th>Carburante</th>
+                <th>Taxi</th>
+                <th>Altre richieste</th>
+                <th>Azioni</th>
+              </tr>
+            </thead>
+            <tbody id="movementsBody">
+              <tr>
+                <td colspan="14" class="empty">Nessun movimento registrato.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
