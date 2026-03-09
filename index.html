@@ -17,17 +17,19 @@
 
       <section class="panel">
         <h2>Nuovo movimento</h2>
-        <form id="movementForm">
+        <form id="movementForm" novalidate>
           <input type="hidden" name="recordId" />
           <div class="grid">
             <label>
               Identificativo volo / Callsign
-              <input type="text" name="callsign" required />
+              <input type="text" name="callsign" />
+              <small class="field-error" data-error-for="callsign"></small>
             </label>
 
             <label>
               Marca aeromobile
-              <input type="text" name="marca" required />
+              <input type="text" name="marca" />
+              <small class="field-error" data-error-for="marca"></small>
             </label>
 
             <label>
@@ -43,11 +45,13 @@
             <label>
               Provenienza
               <input type="text" name="provenienza" required />
+              <small class="field-error" data-error-for="provenienza"></small>
             </label>
 
             <label>
               Destinazione
               <input type="text" name="destinazione" required />
+              <small class="field-error" data-error-for="destinazione"></small>
             </label>
 
             <label>
@@ -94,11 +98,13 @@
             <label>
               Passeggeri in arrivo
               <input type="number" min="0" name="paxArrivo" required />
+              <small class="field-error" data-error-for="paxArrivo"></small>
             </label>
 
             <label>
               Passeggeri in partenza
               <input type="number" min="0" name="paxPartenza" required />
+              <small class="field-error" data-error-for="paxPartenza"></small>
             </label>
 
             <fieldset>

@@ -22,6 +22,7 @@ Web app per il tracciamento operativo di arrivi e partenze dell'aeroporto di **L
   - totale passeggeri in partenza
 - Ordinamento automatico per data/ora (più recenti prima).
 - Salvataggio persistente in `localStorage` (`lucca-airport-ops.movements`).
+- Validazione form con messaggi di errore in italiano sotto i campi coinvolti.
 
 ## Avvio locale
 Apri `index.html` direttamente nel browser oppure usa un server statico, ad esempio:
@@ -38,3 +39,4 @@ python3 -m http.server 4173
 5. Impostare un filtro data e verificare i risultati e il riepilogo giornaliero.
 6. Inserire più record in date/orari diversi e verificare l'ordinamento automatico.
 7. Applicare un filtro data, usare **Esporta CSV** e verificare che il file contenga solo i movimenti filtrati con intestazioni corrette.
+8. Verificare validazione: lasciare vuoti sia Callsign che Marca, oppure inserire passeggeri non interi/negativi, e controllare i messaggi di errore sotto i campi.

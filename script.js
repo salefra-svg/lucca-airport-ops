@@ -40,7 +40,71 @@ function getVisibleMovements() {
   );
 }
 
+function setFieldError(fieldName, message) {
+  const field = form.elements[fieldName];
+  const error = form.querySelector(`[data-error-for="${fieldName}"]`);
+  if (!field || !error) {
+    return;
+  }
 
+  field.classList.toggle("field-invalid", Boolean(message));
+  error.textContent = message || "";
+}
+
+function clearFieldErrors() {
+  form.querySelectorAll(".field-error").forEach((node) => {
+    node.textContent = "";
+  });
+
+  form.querySelectorAll(".field-invalid").forEach((field) => {
+    field.classList.remove("field-invalid");
+  });
+}
+
+function isNonNegativeInteger(value) {
+  return /^\d+$/.test(String(value));
+}
+
+function validateForm(data) {
+  clearFieldErrors();
+  let hasErrors = false;
+
+  const callsign = data.get("callsign")?.toString().trim() || "";
+  const marca = data.get("marca")?.toString().trim() || "";
+  const provenienza = data.get("provenienza")?.toString().trim() || "";
+  const destinazione = data.get("destinazione")?.toString().trim() || "";
+  const paxArrivo = data.get("paxArrivo")?.toString().trim() || "";
+  const paxPartenza = data.get("paxPartenza")?.toString().trim() || "";
+
+  if (!callsign && !marca) {
+    const message = "Compilare almeno Callsign o Marca aeromobile.";
+    setFieldError("callsign", message);
+    setFieldError("marca", message);
+    hasErrors = true;
+  }
+
+  if (!provenienza) {
+    setFieldError("provenienza", "La provenienza è obbligatoria.");
+    hasErrors = true;
+  }
+
+  if (!destinazione) {
+    setFieldError("destinazione", "La destinazione è obbligatoria.");
+    hasErrors = true;
+  }
+
+  if (!isNonNegativeInteger(paxArrivo)) {
+    setFieldError("paxArrivo", "Inserire un numero intero maggiore o uguale a 0.");
+    hasErrors = true;
+  }
+
+  if (!isNonNegativeInteger(paxPartenza)) {
+    setFieldError("paxPartenza", "Inserire un numero intero maggiore o uguale a 0.");
+    hasErrors = true;
+  }
+
+  return !hasErrors;
+}
 
 function escapeCsvValue(value) {
   const normalized = String(value ?? "").replace(/"/g, '""');
@@ -185,6 +249,7 @@ function render() {
 }
 
 function populateForm(record) {
+  clearFieldErrors();
   form.recordId.value = record.id;
   form.callsign.value = record.callsign;
   form.marca.value = record.marca;
@@ -219,6 +284,10 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const data = new FormData(form);
+  if (!validateForm(data)) {
+    return;
+  }
+
   const recordId = data.get("recordId")?.toString();
   const movement = {
     id: recordId || crypto.randomUUID(),
@@ -252,6 +321,7 @@ form.addEventListener("submit", (event) => {
   save();
   render();
   form.reset();
+  clearFieldErrors();
   resetFormEditMode();
 });
 
@@ -291,6 +361,7 @@ clearFilterButton.addEventListener("click", () => {
 
 cancelEditButton.addEventListener("click", () => {
   form.reset();
+  clearFieldErrors();
   resetFormEditMode();
 });
 

@@ -200,3 +200,15 @@ th {
   color: #64748b;
   padding: 1rem;
 }
+
+
+.field-error {
+  min-height: 1em;
+  color: #b91c1c;
+  font-size: 0.8rem;
+}
+
+.field-invalid {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.12);
+}
