@@ -211,6 +211,20 @@ function renderSummary(visibleMovements) {
   `;
 }
 
+
+function getStatusBadgeClass(status) {
+  const normalized = String(status || "").toLowerCase();
+  const map = {
+    atteso: "status-atteso",
+    arrivato: "status-arrivato",
+    pronto: "status-pronto",
+    partito: "status-partito",
+    cancellato: "status-cancellato",
+  };
+
+  return map[normalized] || "status-partito";
+}
+
 function render() {
   sortMovements();
   const visibleMovements = getVisibleMovements();
@@ -231,7 +245,7 @@ function render() {
         <td>${m.esercente}</td>
         <td>${m.provenienza}</td>
         <td>${m.destinazione}</td>
-        <td>${m.stato}</td>
+        <td><span class="status-badge ${getStatusBadgeClass(m.stato)}">${m.stato}</span></td>
         <td>${m.dataArrivo} ${m.oraArrivoLocale} / ${m.oraArrivoUtc}</td>
         <td>${m.dataPartenza} ${m.oraPartenzaLocale} / ${m.oraPartenzaUtc}</td>
         <td>${m.paxArrivo} / ${m.paxPartenza}</td>
@@ -239,8 +253,10 @@ function render() {
         <td>${m.taxi ? "Sì" : "No"}</td>
         <td>${m.altreRichieste || "-"}</td>
         <td>
-          <button type="button" class="small" data-action="edit" data-id="${m.id}">Modifica</button>
-          <button type="button" class="small danger" data-action="delete" data-id="${m.id}">Elimina</button>
+          <div class="table-actions">
+            <button type="button" class="small secondary" data-action="edit" data-id="${m.id}">Modifica</button>
+            <button type="button" class="small danger-soft" data-action="delete" data-id="${m.id}">Elimina</button>
+          </div>
         </td>
       </tr>
     `
